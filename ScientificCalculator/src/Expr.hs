@@ -37,21 +37,22 @@ data Expr
   deriving (Eq)
 
 instance Show Expr where
-  show (Num x)         = show x
-  show (Add x y)       = "(" ++ show x ++ " + " ++ show y ++ ")"
-  show (Mul x y)       = "(" ++ show x ++ " * " ++ show y ++ ")"
-  show (Diff x y)      = "(" ++ show x ++ " - " ++ show y ++ ")"
-  show (Pow x y)       = "(" ++ show x ++ " ^ " ++ show y ++ ")"
-  show (Div x y)       = "(" ++ show x ++ " / " ++ show y ++ ")"
+  show (Num x)         = if x < 0 then "(" ++ show x ++ ")" else show x
+  show (Add x y)       = "(" ++ show x ++ ")" ++ " + " ++ "(" ++ show y ++ ")"
+  show (Mul x y)       = "(" ++ show x ++ ")" ++ " * " ++ "(" ++ show y ++ ")"
+  show (Diff x y)      = "(" ++ show x ++ ")" ++ " - " ++ "(" ++ show y ++ ")"
+  show (Pow x y)       = "(" ++ show x ++ ")" ++ " ^ " ++ "(" ++ show y ++ ")"
+  show (Div x y)       = "(" ++ show x ++ ")" ++ " / " ++ "(" ++ show y ++ ")"
+  show (LogBase b x)   = "(" ++ show b ++ ")" ++ " Lny " ++ "(" ++ show x ++ ")"
+  show (Exp10 b x)     = "(" ++ show b ++ ")" ++ " EE " ++ "(" ++ show x ++ ")"
   show (Sqrt x)        = "sqrt(" ++ show x ++ ")"
   show (Cbrt x)        = "cbrt(" ++ show x ++ ")"
-  show (Reciprocal x)  = "1/(" ++ show x ++ ")"
-  show (Square x)      = "(" ++ show x ++ ")^2"
-  show (Cube x)        = "(" ++ show x ++ ")^3"
+  show (Reciprocal x)  = "1/x(" ++ show x ++ ")"
+  show (Square x)      = "x^2(" ++ show x ++ ")"
+  show (Cube x)        = "x^3(" ++ show x ++ ")"
   show (Ln x)          = "ln(" ++ show x ++ ")"
   show (Log10 x)       = "log10(" ++ show x ++ ")"
-  show (LogBase b x)   = "logBase(" ++ show b ++ ", " ++ show x ++ ")"
-  show (Exp x)         = "e^(" ++ show x ++ ")"
+  show (Exp x)         = "exp(" ++ show x ++ ")"
   show (Rad x)         = "rad(" ++ show x ++ ")"
   show (Deg x)         = "deg(" ++ show x ++ ")"
   show (Sin x)         = "sin(" ++ show x ++ ")"
@@ -66,7 +67,7 @@ instance Show Expr where
   show (ASinh x)       = "asinh(" ++ show x ++ ")"
   show (ACosh x)       = "acosh(" ++ show x ++ ")"
   show (ATanh x)       = "atanh(" ++ show x ++ ")"
-  show (Factorial x)   = "(" ++ show x ++ ")!"
+  show (Factorial x)   = "(" ++ show x ++ ")" ++ "!"
   show Pi              = "π"
   show E               = "e"
-  show (Exp10 b x)     = "(" ++ show b ++ " * 10^" ++ show x ++ ")"
+

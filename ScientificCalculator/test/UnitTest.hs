@@ -204,7 +204,27 @@ testProcessedString = testGroup "Processing String"
         testStringProcessor "Multiple π" "πππππππππ" "π π π π π π π π π "
     ]
 
-
+testPrecisionEval :: TestTree
+testPrecisionEval = testGroup "Precision Evaluation Tests"
+  [ testCase "Precision test: 0.1 + 0.2 = 0.3" $ do
+      let exprStr = "0.1 + 0.2"
+      case parseInput exprStr of
+        Left err -> assertFailure $ "Parse failed: " ++ show err
+        Right expr -> case eval expr of
+          Left calcErr -> assertFailure $ "Evaluation Failed: " ++ show calcErr
+          Right actualValue ->
+            assertBool ("Expected 0.3, but got " ++ show actualValue)
+              (abs (0.3 - actualValue) < 1e-9)
+  , testCase "Precision test: 1 EE -9 * 1 EE 9 = 1" $ do
+      let exprStr = "1 EE -9 * 1 EE 9"
+      case parseInput exprStr of
+        Left err -> assertFailure $ "Parse failed: " ++ show err
+        Right expr -> case eval expr of
+          Left calcErr -> assertFailure $ "Evaluation Failed: " ++ show calcErr
+          Right actualValue ->
+            assertBool ("Expected 1, but got " ++ show actualValue)
+              (abs (1 - actualValue) < 1e-9)
+  ]
 
 main :: IO ()
 main = defaultMain $ testGroup "Calculator Tests"
@@ -212,5 +232,6 @@ main = defaultMain $ testGroup "Calculator Tests"
     testExprParser,
     testEval,
     testMemoryOperations,
-    testProcessedString
+    testProcessedString,
+    testPrecisionEval
   ]
